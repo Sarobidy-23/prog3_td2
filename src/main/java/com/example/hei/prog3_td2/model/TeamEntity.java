@@ -14,9 +14,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Table(name = "team")
 @Entity
@@ -29,8 +28,7 @@ public class TeamEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @OneToMany
+    @OneToMany(mappedBy = "team")
     @JsonIgnore
-    @JoinColumn(name = "id")
-    private List<PlayerEntity> players;
+    private List<PlayerEntity> players = new ArrayList<>();
 }

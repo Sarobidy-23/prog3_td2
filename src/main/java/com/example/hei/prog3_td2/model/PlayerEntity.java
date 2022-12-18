@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,7 +28,6 @@ public class PlayerEntity {
     private String name;
     private int number;
     private Long id_team;
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_team", insertable = false, updatable = false, nullable = true)
     private TeamEntity team;
