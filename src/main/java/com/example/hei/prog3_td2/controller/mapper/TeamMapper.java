@@ -8,10 +8,12 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 @Component
 public class TeamMapper {
+    private final PlayerMapper playerMapper;
     public TeamResponse toRest(TeamEntity domain) {
         return TeamResponse.builder()
                 .name(domain.getName())
-                .players(domain.getPlayers())
+                .players(domain.getPlayers().stream().map(playerMapper::toRest).toList())
+                .sponsors(domain.getSponsors())
                 .build();
     }
 
