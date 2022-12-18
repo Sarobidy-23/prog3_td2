@@ -34,4 +34,10 @@ public class TeamEntity {
     private List<PlayerEntity> players;
     @ManyToMany(mappedBy = "teams")
     private List<SponsorEntity> sponsors;
+    @OneToMany
+    @JoinColumn(name = "id")
+    private List<PlayerEntity> opponent_team;
+    @OneToMany
+    @JoinColumn(name = "id")
+    private List<PlayerEntity> adversary_team;
 }

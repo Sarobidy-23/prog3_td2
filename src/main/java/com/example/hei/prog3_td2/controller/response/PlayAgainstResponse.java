@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
+
 @Data
 @AllArgsConstructor
 @Builder
@@ -13,4 +16,5 @@ public class PlayAgainstResponse {
     private Long id;
     private String date;
     private String time;
+    private List<TeamResponse> competitor;
 }
