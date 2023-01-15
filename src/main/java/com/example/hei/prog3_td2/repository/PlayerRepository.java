@@ -11,5 +11,7 @@ import java.util.List;
 @Repository
 public interface PlayerRepository extends JpaRepository<PlayerEntity, Integer> {
     @Query(value = "select * from player where id_team= :id_team", nativeQuery = true)
-    List<PlayerEntity> getPlayersByIdTeam(@Param("id_team")Long idTeam);
+    List<PlayerEntity> getPlayersByIdTeam(@Param("id_team")int idTeam);
+    @Query(value = "select * from player where id= :id_player limit 1",nativeQuery = true)
+    PlayerEntity getPlayerById(@Param("id_player")int id_player);
 }

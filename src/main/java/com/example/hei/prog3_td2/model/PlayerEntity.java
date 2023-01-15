@@ -14,6 +14,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 
 @Table(name = "player")
 @Entity
@@ -24,11 +26,16 @@ import lombok.NoArgsConstructor;
 public class PlayerEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
     private String name;
     private int number;
-    private Long id_team;
+    private Integer id_team;
     @ManyToOne
     @JoinColumn(name = "id_team", insertable = false, updatable = false, nullable = true)
+    @JsonIgnore
     private TeamEntity team;
+    @OneToMany
+    @JoinColumn(name = "id")
+    @JsonIgnore
+    private List<ScoreEntity> scores;
 }

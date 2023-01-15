@@ -7,7 +7,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -15,7 +14,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Table(name = "team")
@@ -27,17 +25,20 @@ import java.util.List;
 public class TeamEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
     private String name;
     @OneToMany(mappedBy = "team")
     @JsonIgnore
     private List<PlayerEntity> players;
     @ManyToMany(mappedBy = "teams")
+    @JsonIgnore
     private List<SponsorEntity> sponsors;
     @OneToMany
     @JoinColumn(name = "id")
+    @JsonIgnore
     private List<PlayerEntity> opponent_team;
     @OneToMany
     @JoinColumn(name = "id")
+    @JsonIgnore
     private List<PlayerEntity> adversary_team;
 }

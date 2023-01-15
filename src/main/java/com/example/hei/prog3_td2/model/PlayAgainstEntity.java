@@ -14,8 +14,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Table(name = "play_against")
@@ -27,17 +27,42 @@ import java.util.List;
 public class PlayAgainstEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
     private LocalDateTime datetime;
     private String stadium;
-    private Long id_opponent_team;
+    private Integer id_teamA;
     @ManyToOne
-    @JoinColumn(name = "id_opponent_team", insertable = false, updatable = false, nullable = true)
+    @JoinColumn(name = "id_teamA", insertable = false, updatable = false, nullable = true)
     @JsonIgnore
-    private TeamEntity opponentTeam;
-    private Long id_adversary_team;
+    private TeamEntity teamA;
+    private Integer id_teamB;
     @ManyToOne
-    @JoinColumn(name = "id_adversary_team", insertable = false, updatable = false, nullable = true)
+    @JoinColumn(name = "id_teamB", insertable = false, updatable = false, nullable = true)
     @JsonIgnore
-    private TeamEntity adversaryTeam;
+    private TeamEntity teamB;
+    @OneToMany
+    @JoinColumn(name = "id")
+    private List<ScoreEntity> scores;
+
+    public List<ScoreEntity> getTeamAscore(){
+        List<ScoreEntity> teamAScore = new ArrayList<>();
+        for (ScoreEntity score: scores) {
+            if(score.getPlayer().getId_team() == id_teamA && score.isOwnGoal() ==false ||
+                    score.getPlayer().getId_team() == id_teamB && score.isOwnGoal() ==true) {
+                teamAScore.add(score);
+            }
+        }
+        return teamAScore;
+    }
+
+    public List<ScoreEntity> getTeamBscore(){
+        List<ScoreEntity> teamBScore = new ArrayList<>();
+        for (ScoreEntity score: scores) {
+            if(score.getPlayer().getId_team() == id_teamB && score.isOwnGoal() ==false ||
+                    score.getPlayer().getId_team() == id_teamA && score.isOwnGoal() ==true) {
+                teamBScore.add(score);
+            }
+        }
+        return teamBScore;
+    }
 }

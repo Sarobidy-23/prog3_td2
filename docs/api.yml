@@ -23,7 +23,7 @@ paths:
               schema: 
                 type: array
                 items:
-                  $ref: '#/components/schemas/TeamResponse'
+                  $ref: '#/components/schemas/Team'
   /matchs:
     get:
       tags:
@@ -37,47 +37,88 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/MatchResponse'
- 
+                  $ref: '#/components/schemas/Match'
+  
+  /matchs/{idMatch}:
+    get:
+      tags:
+        - "Match"
+      description: get scores details by match id 
+      parameters:
+        - name: idMatch
+          in: path 
+          description: id of the match for which you want to see the score
+          required: true
+          schema: 
+            type: number
+      responses:
+        200:
+          description: list of match scores with details
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  $ref: '#/components/schemas/Match'
+
 components:
   schemas:
-    PlayerResponse:
+    Team:
       type: object
       properties:
-        id: 
+        id:
           type: integer
         name:
           type: string
+    Player:
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        isGuardian:
+          type: boolean
     SponsorResponse:
       type: object
       properties:
         id: 
           type: integer
+          example: 1
         name:
           type: string
-    TeamResponse:
+          example: Telma
+    PlayedTeam:
+      allOf:
+        - $ref: '#/components/schemas/Team'
+      properties:
+        goals:
+          type: integer
+        scorers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Scorers'
+    Match:
       type: object
       properties:
-        name:
+        id:
+          type: integer
+        datetime:
           type: string
-          example: Madagascar
-        players:
-          type: array
-          $ref: '#/components/schemas/PlayerResponse'
-        sponsors:
-          type: array
-          $ref: '#/components/schemas/SponsorResponse'
-    MatchResponse:
+          format: datetime
+        stadium:
+          type: string
+        teamHome:
+          allOf:
+            - $ref: '#/components/schemas/PlayedTeam'
+        teamAway:
+          allOf:
+            - $ref: '#/components/schemas/PlayedTeam'
+    Scorers:
       type: object
       properties:
-        date:
-          type: string
-          format: date
-        time: 
-          type: string
-          format: time
-        competitor:
-          type: array
-          items: 
-            type: string
-          example: ["Madagascar","Congo"]
+        player:
+          $ref: '#/components/schemas/Player'
+        isOG:
+          type: boolean
+        scoreTime:
+          type: integer

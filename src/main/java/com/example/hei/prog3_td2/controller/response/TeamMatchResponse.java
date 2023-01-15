@@ -5,11 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
+import java.util.List;
+
 @Builder
-@AllArgsConstructor
+@Data
 @NoArgsConstructor
-public class PlayerResponse {
+@AllArgsConstructor
+public class TeamMatchResponse {
     private int id;
     private String name;
+    private int goals;
+    private List<ScoreResponse> scores;
 }

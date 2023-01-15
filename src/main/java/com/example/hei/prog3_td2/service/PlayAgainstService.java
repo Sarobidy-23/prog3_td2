@@ -14,4 +14,8 @@ public class PlayAgainstService {
     public List<PlayAgainstEntity> getMatchs() {
         return repository.findAll();
     }
+    public List<PlayAgainstEntity> getMatchById(int idMatch) {
+        return repository.getByIdMatch(idMatch);
+    }
+
 }
